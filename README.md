@@ -18,6 +18,7 @@ samples, guidance on mobile development, and a full API reference.
 
 
 
-https://github.com/user-attachments/assets/029bf2b9-f2ea-482e-afd1-46eaac5f6576
+<img width="246" height="536" alt="taskati login" src="https://github.com/user-attachments/assets/1122b87f-43cd-411c-8a9c-194d18087928" />
 
+<img width="219" height="462" alt="taskati splash" src="https://github.com/user-attachments/assets/a6612706-76c9-4b72-8a7b-d052dbee7d55" />
 

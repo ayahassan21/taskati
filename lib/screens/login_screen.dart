@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:taskati/screens/home_screen.dart';
 import 'package:taskati/widget/button.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -30,38 +31,43 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              photo ==null ? CircleAvatar(
-                radius: 100,
-                backgroundColor: Colors.black,
-                child: Icon(Icons.person,size: 200,color: Colors.purple,),
-              ):CircleAvatar(
-                radius: 100,
-                backgroundColor: Colors.black,backgroundImage: Image.file(File(photo?.path??"")).image,
-              ),
-              SizedBox(height: 20),
-              Button(title: 'Upload from Camera',onPressed: (){camera();}),
-              SizedBox(height: 20),
-              Button(title: "Upload from Gallery",onPressed:(){gallery();}),
-              SizedBox(height: 20),
-              Divider(thickness: 5),
-              SizedBox(height: 20),
-              TextFormField(
-                autofocus: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius:BorderRadius.circular(15),),
-                  hintText:"enter your name",
-                ),
-              ),
-              SizedBox(height: 30),
-              Button(title: 'login',onPressed: (){}),
-            ],
+      body:Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  photo ==null ? CircleAvatar(
+                    radius: 100,
+                    backgroundColor: Colors.black,
+                    child: Icon(Icons.person,size: 200,color: Colors.purple,),
+                  ):CircleAvatar(
+                    radius: 100,
+                    backgroundColor: Colors.black,backgroundImage: Image.file(File(photo?.path??"")).image,
+                  ),
+                  SizedBox(height: 20),
+                  Button(title: 'Upload from Camera',onPressed: (){camera();}),
+                  SizedBox(height: 20),
+                  Button(title: "Upload from Gallery",onPressed:(){gallery();}),
+                  SizedBox(height: 20),
+                  Divider(thickness: 5),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(borderRadius:BorderRadius.circular(15),),
+                      hintText:"enter your name",
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Button(title: 'login',onPressed: (){
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c)=>HomeScreen()), (c)=>false);
+                  }),
+                ],
 
+              ),
           ),
+        ),
       ),
 
     );

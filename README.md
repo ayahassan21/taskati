@@ -23,3 +23,10 @@ samples, guidance on mobile development, and a full API reference.
 
 <img width="243" height="527" alt="taskati home" src="https://github.com/user-attachments/assets/6d9972b6-665e-4d5d-a76f-9f3c75f3b023" />
 
+
+<img width="246" height="534" alt="taskati home!" src="https://github.com/user-attachments/assets/390d4698-7cc4-4bee-a875-a94a798fd6af" />
+
+
+<img width="248" height="538" alt="addtask" src="https://github.com/user-attachments/assets/dc91c0aa-e2b7-45d4-8915-89d9eb42640d" />
+
+

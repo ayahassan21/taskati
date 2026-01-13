@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:taskati/model/task_model.dart';
 import 'package:taskati/screens/add_task_screen.dart';
 import 'package:taskati/widget/calender.dart';
 import 'package:taskati/widget/task.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,8 +59,11 @@ class HomeScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 20),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddTaskScreen()));
+                        onPressed: ()async {
+                         await Navigator.push(context, MaterialPageRoute(builder: (context)=>AddTaskScreen()));
+                         setState(() {
+
+                         });
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepPurple,
@@ -80,15 +89,21 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 30),
-              Expanded(
+              Visibility(
+                  visible:tasks.isEmpty,
+                replacement:
+                Expanded(
                 child: ListView.separated(
-                    itemCount: tasks.length,
-                    itemBuilder: (context, index) =>Task(task: tasks[index],),
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 8);
-                      },
-                    ),
+                  itemCount: tasks.length,
+                  itemBuilder: (context, index) =>Task(task: tasks[index],),
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 8);
+                  },
+                ),
+              ),
+                child: Lottie.asset("assets/image/no data.json"),
               )
+
 
 
             ],

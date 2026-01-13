@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:taskati/model/task_model.dart';
 import 'package:taskati/widget/add_form_field.dart';
 import 'package:taskati/widget/button.dart';
-
 
 
 
@@ -21,9 +22,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     Colors.teal,
     Colors.orange,
     Colors.lightBlue,
-
-
   ];
+  TextEditingController titleController=TextEditingController();
+  TextEditingController descriptionController=TextEditingController();
+  TextEditingController dateController=TextEditingController();
+  TextEditingController startTimeController=TextEditingController();
+  TextEditingController endTimeController=TextEditingController();
+  int activeColor =-1;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,17 +51,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Title",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
-            AddFormField(hint: "enter title"),
+            AddFormField(controller: titleController,   hint: "enter title"),
             SizedBox(height: 25,),
             Text("Description",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
-            AddFormField(hint: "enter description",lines:3),
+            AddFormField(controller: descriptionController,   hint: "enter description",lines:3),
             SizedBox(height: 25,),
             Text("Date",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
-            AddFormField(hint: "12/6/2025",
+            AddFormField(controller:dateController, hint: "12/6/2025",
               suffixIcon: Icon(Icons.calendar_month),
               readOnly: true,
               onTap: (){
-              showDatePicker(context: context, firstDate: DateTime(2025), lastDate: DateTime(2027));
+              showDatePicker(context: context, firstDate: DateTime(2025), lastDate: DateTime(2027)
+              ).then((value){
+                dateController.text=DateFormat.yMEd().format(value??DateTime.now()).toString();
+              });
               },
 
             ),
@@ -66,11 +76,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Start Time",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
-                      AddFormField(hint: "4:00  pm",
+                      AddFormField(controller: startTimeController,  hint: "4:00  pm",
                         suffixIcon: Icon(Icons.alarm)
                         ,readOnly: true,
                         onTap: (){
-                        showTimePicker(context: context, initialTime: TimeOfDay.now());
+                        showTimePicker(context: context, initialTime: TimeOfDay.now())
+                        .then((value){
+                          startTimeController.text=value?.format(context)??"";
+                        })
+                        ;
                         },
                       ),
                     ],
@@ -82,13 +96,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("End Time",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
-                      AddFormField(hint: "9:00  pm",
+                      AddFormField(controller: endTimeController,   hint: "9:00  pm",
                         suffixIcon: Icon(Icons.alarm),
                         readOnly: true,
                         onTap: (){
-                          showTimePicker(context: context, initialTime: TimeOfDay.now());
+                          showTimePicker(context: context, initialTime: TimeOfDay.now())
+                              .then((value){
+                            endTimeController.text=value?.format(context)??"";
                         },
-                      ),
+                      );
+                      })
                     ],
                   ),
                 ),
@@ -96,14 +113,53 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ),
             SizedBox(height: 20,),
             Row(
-              children: List.generate(5, (index)=>  CircleAvatar(
-                radius: 25,
-                backgroundColor: colors[index],
+              children: List.generate(5, (index)=>  InkWell(
+                onTap: (){setState(() {
+                  activeColor=index;
+                }); },
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundColor: colors[index],
+                  child:activeColor==index? Icon(Icons.check,color: Colors.white,):null,
+                ),
               ))
+              
               ,),
             SizedBox(height: 30,),
             Button(title: 'Create Task',onPressed: (){
-              if(formKey.currentState!.validate());})
+              if( formKey.currentState?.validate()??false){
+
+                if(activeColor==-1){
+                  showDialog(context: context, builder: (context)=>AlertDialog(
+                    title: Text("Error"),
+                    content: Text("select color"),
+                  ));
+
+                  return;
+                }
+
+                tasks.add(TaskModel(
+                    taskTitle: titleController.text,
+                    date: dateController.text,
+                    startTime: startTimeController.text,
+                    endTime: endTimeController.text,
+                    description: descriptionController.text,
+                    state: "TODO",
+                    color: colors[activeColor]));
+                Navigator.pop(context);
+
+
+              }
+
+
+
+
+            }),
+
+
+
+
+
 
 
 
